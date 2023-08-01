@@ -19,6 +19,7 @@ class ProfileView: UIView {
     
     let scrollingCanvas: UIScrollView = {
         let view = UIScrollView()
+        view.frame = view.bounds
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -135,19 +136,15 @@ class ProfileView: UIView {
         let view = UIStackView()
         view.axis = .horizontal
         view.alignment = .center
-
+        
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     // Коллекция с чипсами ->
     
-    let chipsCollection: UICollectionView = {
-        let collection = ChipsCollectionView()
-        collection.setChipsLabelTextArray(textOfChipsArray: Constants.skills)
-        return collection
-    }()
-    
+    let chipsCollection = ChipsCollectionView()
+    var skills = Constants.skills
     //-----------------------
     
     let aboutLabel: UILabel = {
@@ -161,8 +158,10 @@ class ProfileView: UIView {
     
     let aboutMeText: UITextView = {
         let text = UITextView()
+        text.textContainerInset = .zero
         text.text = Constants.aboutText
         text.font = .systemFont(ofSize: Constants.textFontSize)
+        text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
     
@@ -181,8 +180,7 @@ class ProfileView: UIView {
     
     func configureUI() {
         backgroundColor = .white
-        addSubview(parentView)
-        parentView.addSubview(scrollingCanvas)
+        addSubview(scrollingCanvas)
         scrollingCanvas.addSubview(contentView)
         contentView.addSubview(grayProfileBackground)
         grayProfileBackground.addSubview(headerLabel)
@@ -197,13 +195,13 @@ class ProfileView: UIView {
         editStackView.addArrangedSubview(editButton)
         contentView.addSubview(editStackView)
         contentView.addSubview(chipsCollection)
+        chipsCollection.setChipsLabelTextArray(textOfChipsArray: skills)
         contentView.addSubview(aboutLabel)
         contentView.addSubview(aboutMeText)
         setConstraints()
     }
     
     func setConstraints() {
-        setParentViewConstraints()
         setScrollViewContraints()
         setContentViewConstraints()
         setGrayBackgroundConstraints()
@@ -214,53 +212,46 @@ class ProfileView: UIView {
         setEditStackConstraints()
         setChipsCollectionConstraints()
         setAboutLabelConstraints()
-        
-    }
-    
-    func setParentViewConstraints() {
-        NSLayoutConstraint.activate([
-                    parentView.topAnchor.constraint(equalTo: super.safeAreaLayoutGuide.topAnchor),
-                    parentView.leadingAnchor.constraint(equalTo: super.leadingAnchor),
-                    parentView.trailingAnchor.constraint(equalTo: super.trailingAnchor),
-                    parentView.bottomAnchor.constraint(equalTo: super.safeAreaLayoutGuide.bottomAnchor)
-                ])
+        setAboutMeTextConstraints()
     }
     
     
     
     func setScrollViewContraints() {
         NSLayoutConstraint.activate([
-                    scrollingCanvas.topAnchor.constraint(equalTo: parentView.topAnchor),
-                    scrollingCanvas.leadingAnchor.constraint(equalTo: parentView.leadingAnchor),
-                    scrollingCanvas.trailingAnchor.constraint(equalTo: parentView.trailingAnchor),
-                    scrollingCanvas.bottomAnchor.constraint(equalTo: parentView.bottomAnchor)
-                ])
+            scrollingCanvas.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            scrollingCanvas.widthAnchor.constraint(equalTo: widthAnchor),
+            scrollingCanvas.centerXAnchor.constraint(equalTo: centerXAnchor),
+            scrollingCanvas.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
     
     func setContentViewConstraints() {
         NSLayoutConstraint.activate([
-                    contentView.topAnchor.constraint(equalTo: super.topAnchor),
-                    contentView.leadingAnchor.constraint(equalTo: super.leadingAnchor),
-                    contentView.trailingAnchor.constraint(equalTo: super.trailingAnchor),
-                    contentView.bottomAnchor.constraint(equalTo: super.bottomAnchor)
-                ])
+            contentView.topAnchor.constraint(equalTo: scrollingCanvas.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollingCanvas.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollingCanvas.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollingCanvas.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollingCanvas.frameLayoutGuide.widthAnchor, multiplier: 1),
+            contentView.heightAnchor.constraint(equalToConstant: 2000)
+        ])
     }
     
     func setGrayBackgroundConstraints() {
         NSLayoutConstraint.activate([
-                    grayProfileBackground.topAnchor.constraint(equalTo: contentView.topAnchor),
-                    grayProfileBackground.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                    grayProfileBackground.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                    grayProfileBackground.heightAnchor.constraint(equalToConstant: Constants.grayBackgroundHeight)
-                ])
+            grayProfileBackground.topAnchor.constraint(equalTo: contentView.topAnchor),
+            grayProfileBackground.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            grayProfileBackground.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            grayProfileBackground.heightAnchor.constraint(equalToConstant: Constants.grayBackgroundHeight)
+        ])
     }
-
+    
     func setHeaderLabelConsrtaints() {
         NSLayoutConstraint.activate([
             headerLabel.centerXAnchor.constraint(equalTo: grayProfileBackground.centerXAnchor),
-            headerLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            headerLabel.topAnchor.constraint(equalTo: grayProfileBackground.topAnchor),
             headerLabel.heightAnchor.constraint(equalToConstant: Constants.headerLabelHeight)
-                ])
+        ])
     }
     
     func setAvatarConstraints() {
@@ -269,7 +260,7 @@ class ProfileView: UIView {
             avatarImage.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 24),
             avatarImage.heightAnchor.constraint(equalToConstant: Constants.avatarDiametr),
             avatarImage.widthAnchor.constraint(equalToConstant: Constants.avatarDiametr)
-                ])
+        ])
     }
     
     func setNameLabelConstraints() {
@@ -307,24 +298,26 @@ class ProfileView: UIView {
         NSLayoutConstraint.activate([
             chipsCollection.topAnchor.constraint(equalTo: editStackView.bottomAnchor),
             chipsCollection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.leadingInteval),
-            chipsCollection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.trailingInteval)
-            ])
+            chipsCollection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.trailingInteval),
+            chipsCollection.heightAnchor.constraint(equalToConstant: 500)
+        ])
     }
     
     func setAboutLabelConstraints() {
         NSLayoutConstraint.activate([
-            aboutLabel.topAnchor.constraint(equalTo: chipsCollection.bottomAnchor),
+            aboutLabel.topAnchor.constraint(equalTo: chipsCollection.bottomAnchor, constant: Constants.eraseButtonRightOffset),
             aboutLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.leadingInteval),
-            aboutLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.trailingInteval)
-            ])
+//            aboutLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.trailingInteval)
+        ])
     }
     
     func setAboutMeTextConstraints() {
         NSLayoutConstraint.activate([
-            aboutMeText.topAnchor.constraint(equalTo: aboutLabel.bottomAnchor),
+            aboutMeText.topAnchor.constraint(equalTo: aboutLabel.bottomAnchor, constant: Constants.labelOffset),
             aboutMeText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.leadingInteval),
-            aboutMeText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.trailingInteval)
-            ])
+            aboutMeText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: Constants.trailingInteval),
+            aboutMeText.heightAnchor.constraint(equalToConstant: 100)
+        ])
     }
     
     @objc func editButtonTapped() {

@@ -13,7 +13,7 @@ class MainController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        view = ProfileView(frame: view.bounds)
+        view = ProfileView()
 
     }
     

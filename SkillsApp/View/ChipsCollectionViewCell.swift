@@ -21,6 +21,7 @@ class ChipsCollectionViewCell: UICollectionViewCell {
     let deleteButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "delete"), for: .normal)
+        button.isHidden = true
         button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
