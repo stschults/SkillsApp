@@ -31,7 +31,7 @@ enum Constants{
     static let trailingInteval: CGFloat = -16.0
     static let leadingOffset: CGFloat = 50.0
     static let trailingOffset: CGFloat = -50.0
-    static let grayBackgroundHeight: CGFloat = 387.0
+    static let grayBackgroundHeight: CGFloat = 343.0
     static let avatarDiametr: CGFloat = 120.0
     static let geoImageDiametr: CGFloat = 16.0
     static let editImageDiametr: CGFloat = 24.0
@@ -47,9 +47,10 @@ enum Constants{
     static let deleteButtonSize: CGFloat = 12.0
     static let labelOffset: CGFloat = 8.0
     static let chipsHeight: CGFloat = 44.0
-    static let aboutText: String = "Hello, my name is Stanislav Schults. I am a iOS engineer and I can help you to create your own mobile application or give you some advices. Contact me on telegram or e-mail. You can get more information about me on interview. See you and have a nice day 😊"
+    static let aboutText: String = "Hello, my name is Stanislav Schults. I am an iOS engineer and I can help you to create your own mobile application or give you some advices. Contact me on telegram or e-mail. You can get more information about me on interview. See you and have a nice day 😊"
     static let imageName: String = "myAvatar"
     static let geoImage: String = "geo"
     static let chipsMinimumLineSpaing: CGFloat = 12.0
+    static let chipsSideInset: CGFloat = 48.0
     static let emptyString: String = ""
 }

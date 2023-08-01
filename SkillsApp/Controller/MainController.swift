@@ -9,19 +9,13 @@ import UIKit
 
 class MainController: UIViewController {
 
-    
-    
     override func loadView() {
         super.loadView()
         view = ProfileView()
-
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
-
-    
 }
 
