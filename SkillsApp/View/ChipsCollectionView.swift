@@ -9,6 +9,7 @@ import UIKit
 
 class ChipsCollectionView: UICollectionView {
     
+    public var editState = false
     private let chipsColectionLayout = UICollectionViewFlowLayout()
     private var chipsNames = [String]()
     
@@ -24,6 +25,7 @@ class ChipsCollectionView: UICollectionView {
     private func configure() {
         chipsColectionLayout.minimumLineSpacing = Constants.chipsMinimumLineSpaing
         chipsColectionLayout.scrollDirection = .vertical
+        chipsColectionLayout.minimumInteritemSpacing = .leastNormalMagnitude
         backgroundColor = .none
         translatesAutoresizingMaskIntoConstraints = false
         bounces = false
@@ -47,6 +49,7 @@ extension  ChipsCollectionView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         guard let cell = dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ChipsCollectionViewCell
         else { return UICollectionViewCell() }
         cell.chipsLabel.text = chipsNames[indexPath.item]
@@ -69,8 +72,8 @@ extension ChipsCollectionView: UICollectionViewDelegateFlowLayout {
         
         let chipsFont = UIFont.systemFont(ofSize: Constants.textFontSize, weight: .regular)
         let chipsAttributes = [NSAttributedString.Key.font : chipsFont as Any]
-        let chipsWidth = chipsNames[indexPath.item].size(withAttributes: chipsAttributes).width + 24
+        let chipsWidth = chipsNames[indexPath.item].size(withAttributes: chipsAttributes).width + 48
         return CGSize(width: chipsWidth,
-                      height: collectionView.frame.height)
+                      height: Constants.chipsHeight)
     }
 }

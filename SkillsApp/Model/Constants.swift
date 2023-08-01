@@ -9,7 +9,7 @@ import UIKit
 
 /// Imatates fetched data via hardcoded enumeration
 enum Constants{
-    static var skills: [String] = ["Swift","GCD","Moya","MVC"]
+    static var skills: [String] = ["Swift","GCD","Moya","MVC", "ООП", "Autolayot", "Storyboard", "SwiftUI"]
     static let greyProfileBackgroundColor: UIColor = UIColor(red: 243/255,
                                                              green: 243/255,
                                                              blue: 245/255,
@@ -24,9 +24,7 @@ enum Constants{
     static let nameLabel: String = "Шульц Станислав Леонидович"
     static let infoLabel: String = "iOS разработчик, опыт более 1-го года"
     static let geoLabel: String = "Москва"
-    
     static let headerLabelHeight: CGFloat = 56.0
-    
     static let standardItemHeight: CGFloat = 50.0
     static let elementInterval: CGFloat = 20.0
     static let leadingInteval: CGFloat = 16.0
@@ -48,7 +46,8 @@ enum Constants{
     static let eraseButtonRightOffset: CGFloat = 24.0
     static let deleteButtonSize: CGFloat = 12.0
     static let labelOffset: CGFloat = 8.0
-    static let aboutText: String = "Hello, my name is Stanislav Schults. I am a iOS engineer and I can help you to create your own mobile application or give you some advices. Contact me on telegram or e-mail."
+    static let chipsHeight: CGFloat = 44.0
+    static let aboutText: String = "Hello, my name is Stanislav Schults. I am a iOS engineer and I can help you to create your own mobile application or give you some advices. Contact me on telegram or e-mail. You can get more information about me on interview. See you and have a nice day 😊"
     static let imageName: String = "myAvatar"
     static let geoImage: String = "geo"
     static let chipsMinimumLineSpaing: CGFloat = 12.0

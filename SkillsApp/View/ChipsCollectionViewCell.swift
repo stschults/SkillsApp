@@ -9,6 +9,8 @@ import UIKit
 
 class ChipsCollectionViewCell: UICollectionViewCell {
     
+    var editState: Bool = false
+    
     let chipsLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -37,7 +39,13 @@ class ChipsCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
-        setConstraints()
+        if editState == false {
+            setConstraints()
+        }
+        else {
+            deleteButton.isHidden = false
+            setEdittingConstraints()
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -65,6 +73,7 @@ class ChipsCollectionViewCell: UICollectionViewCell {
             [
                 chipsLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
                 chipsLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+                deleteButton.trailingAnchor.constraint(equalTo: chipsLabel.trailingAnchor, constant: Constants.eraseButtonRightOffset),
                 deleteButton.heightAnchor.constraint(equalToConstant: Constants.deleteButtonSize),
                 deleteButton.widthAnchor.constraint(equalToConstant: Constants.deleteButtonSize)
             ]
@@ -73,6 +82,7 @@ class ChipsCollectionViewCell: UICollectionViewCell {
     
     @objc func deleteButtonTapped() {
         print("Delete button tapped")
+        
     }
     
 }
