@@ -142,7 +142,11 @@ class ProfileView: UIView {
     
     // Коллекция с чипсами ->
     
-    
+    let chipsCollection: UICollectionView = {
+        let collection = ChipsCollectionView()
+        collection.setChipsLabelTextArray(textOfChipsArray: Constants.skills)
+        return collection
+    }()
     
     //-----------------------
     
@@ -192,6 +196,9 @@ class ProfileView: UIView {
         editStackView.addArrangedSubview(mySkill)
         editStackView.addArrangedSubview(editButton)
         contentView.addSubview(editStackView)
+        contentView.addSubview(chipsCollection)
+        contentView.addSubview(aboutLabel)
+        contentView.addSubview(aboutMeText)
         setConstraints()
     }
     
@@ -205,6 +212,9 @@ class ProfileView: UIView {
         setNameLabelConstraints()
         setInfoStackConstraints()
         setEditStackConstraints()
+        setChipsCollectionConstraints()
+        setAboutLabelConstraints()
+        
     }
     
     func setParentViewConstraints() {
@@ -291,6 +301,30 @@ class ProfileView: UIView {
             editStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.leadingInteval),
             editStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.trailingInteval)
         ])
+    }
+    
+    func setChipsCollectionConstraints() {
+        NSLayoutConstraint.activate([
+            chipsCollection.topAnchor.constraint(equalTo: editStackView.bottomAnchor),
+            chipsCollection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.leadingInteval),
+            chipsCollection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.trailingInteval)
+            ])
+    }
+    
+    func setAboutLabelConstraints() {
+        NSLayoutConstraint.activate([
+            aboutLabel.topAnchor.constraint(equalTo: chipsCollection.bottomAnchor),
+            aboutLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.leadingInteval),
+            aboutLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.trailingInteval)
+            ])
+    }
+    
+    func setAboutMeTextConstraints() {
+        NSLayoutConstraint.activate([
+            aboutMeText.topAnchor.constraint(equalTo: aboutLabel.bottomAnchor),
+            aboutMeText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.leadingInteval),
+            aboutMeText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.trailingInteval)
+            ])
     }
     
     @objc func editButtonTapped() {

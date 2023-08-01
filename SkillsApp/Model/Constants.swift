@@ -45,12 +45,16 @@ enum Constants{
     static let editSkillSpacing: CGFloat = 21.0
     static let geoSpacing: CGFloat = 2.0
     static let additionalInfoSpacing: CGFloat = 4.0
+    static let eraseButtonRightOffset: CGFloat = 24.0
+    static let deleteButtonSize: CGFloat = 12.0
     
     static let aboutText: String = "Hello, my name is Stanislav Schults. I am a Junior iOS developer and I can help you to create your own mobile application or give you some advices. Contact me on telegram or e-mail. Please, visit Contacts page to feedback."
     static let imageName: String = "myAvatar"
     static let geoImage: String = "geo"
  
   
+    static let chipsMinimumLineSpaing: CGFloat = 12.0
+    
     static let emptyString: String = ""
 
 }

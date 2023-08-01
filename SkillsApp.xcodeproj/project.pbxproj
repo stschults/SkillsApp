@@ -15,6 +15,8 @@
 		29F9E3B62A78EDAD00B69EC9 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F9E3B52A78EDAD00B69EC9 /* Models.swift */; };
 		29F9E3B82A78EDBE00B69EC9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F9E3B72A78EDBE00B69EC9 /* Constants.swift */; };
 		29F9E3BA2A78EDE500B69EC9 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F9E3B92A78EDE500B69EC9 /* ProfileView.swift */; };
+		29F9E3BC2A79397F00B69EC9 /* ChipsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F9E3BB2A79397F00B69EC9 /* ChipsCollectionViewCell.swift */; };
+		29F9E3BE2A7939AB00B69EC9 /* ChipsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F9E3BD2A7939AB00B69EC9 /* ChipsCollectionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		29F9E3B52A78EDAD00B69EC9 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		29F9E3B72A78EDBE00B69EC9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		29F9E3B92A78EDE500B69EC9 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		29F9E3BB2A79397F00B69EC9 /* ChipsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipsCollectionViewCell.swift; sourceTree = "<group>"; };
+		29F9E3BD2A7939AB00B69EC9 /* ChipsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipsCollectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +86,8 @@
 			isa = PBXGroup;
 			children = (
 				29F9E3B92A78EDE500B69EC9 /* ProfileView.swift */,
+				29F9E3BB2A79397F00B69EC9 /* ChipsCollectionViewCell.swift */,
+				29F9E3BD2A7939AB00B69EC9 /* ChipsCollectionView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -175,7 +181,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29F9E3BC2A79397F00B69EC9 /* ChipsCollectionViewCell.swift in Sources */,
 				29F9E3B82A78EDBE00B69EC9 /* Constants.swift in Sources */,
+				29F9E3BE2A7939AB00B69EC9 /* ChipsCollectionView.swift in Sources */,
 				29F9E3A22A78EAD600B69EC9 /* MainController.swift in Sources */,
 				29F9E39E2A78EAD600B69EC9 /* AppDelegate.swift in Sources */,
 				29F9E3A02A78EAD600B69EC9 /* SceneDelegate.swift in Sources */,
