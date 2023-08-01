@@ -17,7 +17,6 @@ class ChipsCollectionView: UICollectionView {
         super.init(frame: .zero, collectionViewLayout: chipsColectionLayout)
         configure()
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -40,6 +39,10 @@ class ChipsCollectionView: UICollectionView {
         chipsNames = textOfChipsArray
     }
     
+    func editCollection() {
+        editState = true
+        print("Edit state changed to true collection")
+    }
 }
 
 extension  ChipsCollectionView: UICollectionViewDataSource {
@@ -49,7 +52,6 @@ extension  ChipsCollectionView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         guard let cell = dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ChipsCollectionViewCell
         else { return UICollectionViewCell() }
         cell.chipsLabel.text = chipsNames[indexPath.item]
@@ -69,10 +71,9 @@ extension ChipsCollectionView: UICollectionViewDelegate {
 
 extension ChipsCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
         let chipsFont = UIFont.systemFont(ofSize: Constants.textFontSize, weight: .regular)
         let chipsAttributes = [NSAttributedString.Key.font : chipsFont as Any]
-        let chipsWidth = chipsNames[indexPath.item].size(withAttributes: chipsAttributes).width + 48
+        let chipsWidth = chipsNames[indexPath.item].size(withAttributes: chipsAttributes).width + Constants.chipsSideInset
         return CGSize(width: chipsWidth,
                       height: Constants.chipsHeight)
     }

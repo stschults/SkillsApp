@@ -117,10 +117,9 @@ class ProfileView: UIView {
         return label
     }()
     
-    private let editButton: UIButton = {
+    public let editButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "edit"), for: .normal)
-        button.setImage(UIImage(named: "done"), for: .selected)
         button.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -135,11 +134,8 @@ class ProfileView: UIView {
         return view
     }()
     
-    // Коллекция с чипсами ->
-    
     private let chipsCollection = ChipsCollectionView()
     private var skills = Constants.skills
-    //-----------------------
     
     private let aboutLabel: UILabel = {
         let label = UILabel()
@@ -302,8 +298,7 @@ class ProfileView: UIView {
     private func setAboutLabelConstraints() {
         NSLayoutConstraint.activate([
             aboutLabel.topAnchor.constraint(equalTo: chipsCollection.bottomAnchor, constant: Constants.eraseButtonRightOffset),
-            aboutLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.leadingInteval),
-//            aboutLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.trailingInteval)
+            aboutLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.leadingInteval)
         ])
     }
     
@@ -318,7 +313,8 @@ class ProfileView: UIView {
     
     @objc private func editButtonTapped() {
         print("Button Edit tapped...")
-        chipsCollection.editState = true
+        chipsCollection.editCollection()
+        //editButton.setImage(UIImage(named: "done"), for: .normal)
     }
     
 }
