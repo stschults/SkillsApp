@@ -10,27 +10,22 @@ import UIKit
 class ProfileView: UIView {
     
     //UI Items
-    
-    let parentView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    let scrollingCanvas: UIScrollView = {
+
+    private let scrollingCanvas: UIScrollView = {
         let view = UIScrollView()
+        view.frame = view.bounds
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let grayProfileBackground: UIView = {
+    private let grayProfileBackground: UIView = {
         let view = UIView()
         view.backgroundColor = Constants.greyProfileBackgroundColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let headerLabel: UILabel = {
+    private let headerLabel: UILabel = {
         let label = UILabel()
         label.text = Constants.titleLabelProfile
         label.font = .boldSystemFont(ofSize: Constants.titleLabelFontSize)
@@ -39,13 +34,13 @@ class ProfileView: UIView {
         return label
     }()
     
-    let contentView: UIView = {
+    private let contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let avatarImage = {
+    private let avatarImage = {
         let image = UIImageView()
         image.image = UIImage(named: Constants.imageName)
         image.layer.cornerRadius = Constants.avatarCornerRadius
@@ -55,7 +50,7 @@ class ProfileView: UIView {
         return image
     }()
     
-    let nameLabel:UILabel = {
+    private let nameLabel:UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
         label.text = Constants.nameLabel
@@ -65,7 +60,7 @@ class ProfileView: UIView {
         return label
     }()
     
-    let infoLabel: UILabel = {
+    private let infoLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
         label.text = Constants.infoLabel
@@ -76,7 +71,7 @@ class ProfileView: UIView {
         return label
     }()
     
-    let geoImage = {
+    private let geoImage = {
         let image = UIImageView()
         image.image = UIImage(named: Constants.geoImage)
         image.clipsToBounds = true
@@ -85,7 +80,7 @@ class ProfileView: UIView {
         return image
     }()
     
-    let geoLabel:UILabel = {
+    private let geoLabel:UILabel = {
         let label = UILabel()
         label.text = Constants.geoLabel
         label.font = .systemFont(ofSize: Constants.textFontSize)
@@ -95,7 +90,7 @@ class ProfileView: UIView {
         return label
     }()
     
-    let geoStack: UIStackView = {
+    private let geoStack: UIStackView = {
         let view = UIStackView()
         view.axis = .horizontal
         view.alignment = .center
@@ -104,7 +99,7 @@ class ProfileView: UIView {
         return view
     }()
     
-    let additionalInfoStack: UIStackView = {
+    private let additionalInfoStack: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
         view.alignment = .center
@@ -113,7 +108,7 @@ class ProfileView: UIView {
         return view
     }()
     
-    let mySkill: UILabel = {
+    private let mySkill: UILabel = {
         let label = UILabel()
         label.text = Constants.titleLabelSkills
         label.font = .systemFont(ofSize: Constants.titleLabelFontSize)
@@ -122,7 +117,7 @@ class ProfileView: UIView {
         return label
     }()
     
-    let editButton: UIButton = {
+    private let editButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "edit"), for: .normal)
         button.setImage(UIImage(named: "done"), for: .selected)
@@ -131,22 +126,22 @@ class ProfileView: UIView {
         return button
     }()
     
-    let editStackView: UIStackView = {
+    private let editStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .horizontal
         view.alignment = .center
-
+        
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     // Коллекция с чипсами ->
     
-    
-    
+    private let chipsCollection = ChipsCollectionView()
+    private var skills = Constants.skills
     //-----------------------
     
-    let aboutLabel: UILabel = {
+    private let aboutLabel: UILabel = {
         let label = UILabel()
         label.text = Constants.titleLabelAbout
         label.font = .systemFont(ofSize: Constants.titleLabelFontSize)
@@ -155,10 +150,16 @@ class ProfileView: UIView {
         return label
     }()
     
-    let aboutMeText: UITextView = {
+    private let aboutMeText: UITextView = {
         let text = UITextView()
+        text.textContainerInset = .zero
+        text.textAlignment = .left
+        text.isEditable = false
+        text.isSelectable = false
+        text.isScrollEnabled = false
         text.text = Constants.aboutText
         text.font = .systemFont(ofSize: Constants.textFontSize)
+        text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
     
@@ -175,10 +176,9 @@ class ProfileView: UIView {
     
     // Private configuring UI methods
     
-    func configureUI() {
+    private func configureUI() {
         backgroundColor = .white
-        addSubview(parentView)
-        parentView.addSubview(scrollingCanvas)
+        addSubview(scrollingCanvas)
         scrollingCanvas.addSubview(contentView)
         contentView.addSubview(grayProfileBackground)
         grayProfileBackground.addSubview(headerLabel)
@@ -192,11 +192,14 @@ class ProfileView: UIView {
         editStackView.addArrangedSubview(mySkill)
         editStackView.addArrangedSubview(editButton)
         contentView.addSubview(editStackView)
+        contentView.addSubview(chipsCollection)
+        chipsCollection.setChipsLabelTextArray(textOfChipsArray: skills)
+        contentView.addSubview(aboutLabel)
+        contentView.addSubview(aboutMeText)
         setConstraints()
     }
     
-    func setConstraints() {
-        setParentViewConstraints()
+    private func setConstraints() {
         setScrollViewContraints()
         setContentViewConstraints()
         setGrayBackgroundConstraints()
@@ -205,64 +208,58 @@ class ProfileView: UIView {
         setNameLabelConstraints()
         setInfoStackConstraints()
         setEditStackConstraints()
+        setChipsCollectionConstraints()
+        setAboutLabelConstraints()
+        setAboutMeTextConstraints()
     }
     
-    func setParentViewConstraints() {
+    private func setScrollViewContraints() {
         NSLayoutConstraint.activate([
-                    parentView.topAnchor.constraint(equalTo: super.safeAreaLayoutGuide.topAnchor),
-                    parentView.leadingAnchor.constraint(equalTo: super.leadingAnchor),
-                    parentView.trailingAnchor.constraint(equalTo: super.trailingAnchor),
-                    parentView.bottomAnchor.constraint(equalTo: super.safeAreaLayoutGuide.bottomAnchor)
-                ])
+            scrollingCanvas.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            scrollingCanvas.widthAnchor.constraint(equalTo: widthAnchor),
+            scrollingCanvas.centerXAnchor.constraint(equalTo: centerXAnchor),
+            scrollingCanvas.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
     
-    
-    
-    func setScrollViewContraints() {
+    private func setContentViewConstraints() {
         NSLayoutConstraint.activate([
-                    scrollingCanvas.topAnchor.constraint(equalTo: parentView.topAnchor),
-                    scrollingCanvas.leadingAnchor.constraint(equalTo: parentView.leadingAnchor),
-                    scrollingCanvas.trailingAnchor.constraint(equalTo: parentView.trailingAnchor),
-                    scrollingCanvas.bottomAnchor.constraint(equalTo: parentView.bottomAnchor)
-                ])
+            contentView.topAnchor.constraint(equalTo: scrollingCanvas.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollingCanvas.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollingCanvas.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollingCanvas.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollingCanvas.frameLayoutGuide.widthAnchor, multiplier: 1),
+            contentView.heightAnchor.constraint(equalToConstant: 800)
+        ])
     }
     
-    func setContentViewConstraints() {
+    private func setGrayBackgroundConstraints() {
         NSLayoutConstraint.activate([
-                    contentView.topAnchor.constraint(equalTo: super.topAnchor),
-                    contentView.leadingAnchor.constraint(equalTo: super.leadingAnchor),
-                    contentView.trailingAnchor.constraint(equalTo: super.trailingAnchor),
-                    contentView.bottomAnchor.constraint(equalTo: super.bottomAnchor)
-                ])
+            grayProfileBackground.topAnchor.constraint(equalTo: contentView.topAnchor),
+            grayProfileBackground.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            grayProfileBackground.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            grayProfileBackground.heightAnchor.constraint(equalToConstant: Constants.grayBackgroundHeight)
+        ])
     }
     
-    func setGrayBackgroundConstraints() {
-        NSLayoutConstraint.activate([
-                    grayProfileBackground.topAnchor.constraint(equalTo: contentView.topAnchor),
-                    grayProfileBackground.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                    grayProfileBackground.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                    grayProfileBackground.heightAnchor.constraint(equalToConstant: Constants.grayBackgroundHeight)
-                ])
-    }
-
-    func setHeaderLabelConsrtaints() {
+    private func setHeaderLabelConsrtaints() {
         NSLayoutConstraint.activate([
             headerLabel.centerXAnchor.constraint(equalTo: grayProfileBackground.centerXAnchor),
-            headerLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            headerLabel.topAnchor.constraint(equalTo: grayProfileBackground.topAnchor),
             headerLabel.heightAnchor.constraint(equalToConstant: Constants.headerLabelHeight)
-                ])
+        ])
     }
     
-    func setAvatarConstraints() {
+    private func setAvatarConstraints() {
         NSLayoutConstraint.activate([
             avatarImage.centerXAnchor.constraint(equalTo: grayProfileBackground.centerXAnchor),
             avatarImage.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 24),
             avatarImage.heightAnchor.constraint(equalToConstant: Constants.avatarDiametr),
             avatarImage.widthAnchor.constraint(equalToConstant: Constants.avatarDiametr)
-                ])
+        ])
     }
     
-    func setNameLabelConstraints() {
+    private func setNameLabelConstraints() {
         NSLayoutConstraint.activate([
             nameLabel.centerXAnchor.constraint(equalTo: grayProfileBackground.centerXAnchor),
             nameLabel.topAnchor.constraint(equalTo: avatarImage.bottomAnchor, constant: 16),
@@ -271,7 +268,7 @@ class ProfileView: UIView {
         ])
     }
     
-    func setInfoStackConstraints() {
+    private func setInfoStackConstraints() {
         NSLayoutConstraint.activate([
             geoImage.heightAnchor.constraint(equalToConstant: Constants.geoImageDiametr),
             geoImage.widthAnchor.constraint(equalToConstant: Constants.geoImageDiametr),
@@ -282,7 +279,7 @@ class ProfileView: UIView {
         ])
     }
     
-    func setEditStackConstraints() {
+    private func setEditStackConstraints() {
         NSLayoutConstraint.activate([
             editButton.heightAnchor.constraint(equalToConstant: Constants.editImageDiametr),
             editButton.widthAnchor.constraint(equalToConstant: Constants.editImageDiametr),
@@ -293,8 +290,35 @@ class ProfileView: UIView {
         ])
     }
     
-    @objc func editButtonTapped() {
+    private func setChipsCollectionConstraints() {
+        NSLayoutConstraint.activate([
+            chipsCollection.topAnchor.constraint(equalTo: editStackView.bottomAnchor, constant: Constants.leadingInteval),
+            chipsCollection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.leadingInteval),
+            chipsCollection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.trailingInteval),
+            chipsCollection.heightAnchor.constraint(equalToConstant: 170)
+        ])
+    }
+    
+    private func setAboutLabelConstraints() {
+        NSLayoutConstraint.activate([
+            aboutLabel.topAnchor.constraint(equalTo: chipsCollection.bottomAnchor, constant: Constants.eraseButtonRightOffset),
+            aboutLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.leadingInteval),
+//            aboutLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.trailingInteval)
+        ])
+    }
+    
+    private func setAboutMeTextConstraints() {
+        NSLayoutConstraint.activate([
+            aboutMeText.topAnchor.constraint(equalTo: aboutLabel.bottomAnchor, constant: Constants.labelOffset),
+            aboutMeText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.leadingInteval),
+            aboutMeText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.trailingInteval),
+            aboutMeText.heightAnchor.constraint(equalToConstant: 150)
+        ])
+    }
+    
+    @objc private func editButtonTapped() {
         print("Button Edit tapped...")
+        chipsCollection.editState = true
     }
     
 }
